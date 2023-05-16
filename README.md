@@ -10,7 +10,7 @@ A **One-Time Password Authentication** _Strategy_ for Remix Auth.
 ### Features
 
 - **😌 Easy to Setup**. The Strategy handles the entire authentication flow for you.
-- **🔐 Secure**. Encrypted and single-use codes.
+- **🔐 Secure**. Encrypted with single-use codes.
 - **📧 Magic Link Built-In**. Authenticate your users with a simple click.
 - **📚 One Source of Truth**. The database of your choice.
 - **🛡 Bulletproof**. Written in strict TypeScript with a high test coverage.
@@ -24,9 +24,9 @@ We've created a simple template demo that displays the authentication workflow. 
 
 ## Getting Started
 
-This Strategy uses a password-less authentication flow based on email-code validation.<br />
+The Strategy uses a password-less authentication flow based on email-code validation.<br />
 
-The user will receive an email with a code that will be used to authenticate itself. The code has just a single use and it's valid for a short period of time, which makes it secure and reliable.<br />
+The user will receive an email with a code that can be used to authenticate itself. The code has just a single use and it's valid for a short period of time, which makes it secure and reliable.<br />
 
 Let's see how we can implement this Strategy for our Remix App.
 
@@ -35,7 +35,7 @@ Let's see how we can implement this Strategy for our Remix App.
 
 ### Package
 
-First things first, we'll need to install the package.
+First things first, we'll require to install the package.
 
 ```bash
 npm install remix-auth-otp
@@ -43,7 +43,7 @@ npm install remix-auth-otp
 
 ### Database
 
-We'll require a database to store our codes. The 'OTP' model has no relations with any other model, this simplifies the process of generating the codes and makes it easier to be implemented into any database of your choice.
+We'll require a database to store our codes. The OTP model has no relations with any other model, this simplifies the process of generating the codes and makes it easier to be implemented into any database of your choice.
 
 In this example we'll use Prisma ORM with a SQLite database. As long as your database model looks like the following one, you are good to go.
 
@@ -72,7 +72,7 @@ model Otp {
 
 ### Email Service
 
-We'll require an Email Service to send the codes to our users. I'll recommend [Sendinblue](https://www.sendinblue.com) for dev purposes, it's free and does not require Credit Card for registration, either use. Feel free to use any other service of your choice like [Mailgun](https://www.mailgun.com/), [Sendgrid](https://sendgrid.com/), etc.
+We'll require an Email Service to send the codes to our users. Feel free to use any service of your choice like [Mailgun](https://www.mailgun.com/), [Sendgrid](https://sendgrid.com/), [Mailchimp](https://mailchimp.com/), etc.
 
 The goal is to have a sender function similar to the following one.
 
@@ -276,24 +276,17 @@ authenticator.use(
     },
     async ({ email, code, magicLink, form, request }) => {
       // You can determine whether the user is authenticating
-      // via OTP submission or Magic Link and run your own logic. (Optional)
-      if (form) {
-        console.log('OTP code form submission.')
-      }
-
-      if (magicLink) {
-        console.log('Magic Link clicked.')
-      }
+      // via OTP submission or Magic Link and run your own logic.
+      if (form) console.log('Optional form submission logic.')
+      if (magicLink) console.log('Optional magic link submission logic.')
 
       // Get user from database.
       let user = await db.user.findFirst({
-        where: {
-          email: email,
-        },
+        where: { email },
       })
 
+      // Create new user.
       if (!user) {
-        // Create new user.
         user = await db.user.create({
           data: { email },
         })
@@ -310,7 +303,7 @@ And that's it! Feel free to check the [Example Code](https://github.com/dev-xo/r
 
 ### Auth Routes
 
-Last but not least, we'll need to create the routes that will handle the authentication flow.
+Last but not least, we'll require to create the routes that will handle the authentication flow.
 Create the following files inside the `app/routes` folder.
 
 ### `login.tsx`
