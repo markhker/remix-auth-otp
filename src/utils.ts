@@ -1,6 +1,6 @@
 import type { CodeGenerationOptions, MagicLinkGenerationOptions } from './index'
 import crypto from 'crypto-js'
-import otpGenerator from 'otp-generator'
+import { customAlphabet } from 'nanoid'
 
 /**
  * Encryption.
@@ -18,7 +18,19 @@ export async function decrypt(value: string, secret: string): Promise<string> {
  * OTP Generation.
  */
 export function generateOtp(options: CodeGenerationOptions) {
-  const code = otpGenerator.generate(options.length, { ...options })
+  const digits = '0123456789'
+  const lowerCaseAlphabets = 'abcdefghijklmnopqrstuvwxyz'
+  const upperCaseAlphabets = lowerCaseAlphabets.toUpperCase()
+  const specialChars = '#!&@'
+
+  const allowsChars =
+    (options.digits ? digits : '') +
+    (options.lowerCaseAlphabets ? lowerCaseAlphabets : '') +
+    (options.upperCaseAlphabets ? upperCaseAlphabets : '') +
+    (options.specialChars ? specialChars : '')
+  const nanoid = customAlphabet(allowsChars, 10)
+
+  const code = nanoid()
   const createdAt = new Date().toISOString()
 
   return {
