@@ -1,5 +1,5 @@
 {
-  "name": "remix-auth-otp",
+  "name": "@karimdev/remix-auth-otp",
   "version": "2.3.0",
   "main": "./build/index.js",
   "types": "./build/index.d.ts",
