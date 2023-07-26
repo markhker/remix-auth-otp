@@ -1,6 +1,6 @@
 {
   "name": "@karimdev/remix-auth-otp",
-  "version": "2.6.0",
+  "version": "2.6.1",
   "main": "./build/index.js",
   "types": "./build/index.d.ts",
   "license": "MIT",
@@ -38,7 +38,7 @@
     "/public/build"
   ],
   "dependencies": {
-    "@karimdev/web-otp-generator": "^1.2.0",
+    "@karimdev/web-otp-generator": "^1.2.1",
     "crypto-js": "^4.1.1"
   },
   "peerDependencies": {
